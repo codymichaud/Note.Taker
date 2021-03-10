@@ -1,30 +1,30 @@
-const path = require('path')
 const express = require('express');
 const fs = require('fs');
+const db = require('./db/db.json')
 const { request } = require('http');
 const { response } = require('express');
-
+const path = require('path');
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('./public'));
 
-app.get('/', function (request, response) {
-    response.sendFile(path.resolve(__dirname, './public/index.html'), error => {
+app.get('/', (request, response) => {
+    response.sendFile(path.join(__dirname, './public/index.html'), error => {
         if (error) console.error(error);
     });
 });
 
-app.get('/notes', function (request, response) {
-    response.sendFile(path.resolve(__dirname, './public/notes.html'), error => {
+app.get('/notes', (request, response) => {
+    response.sendFile(path.join(__dirname, './public/notes.html'), error => {
         if (error) console.error(error);
     });
 });
 
-app.get('/api/notes', function (request, response) {
+app.get('/api/notes', (request, response) => {
     fs.readFile('db/db.json', 'utf-8', function (error, content) {
         let alpha = JSON.parse(content);
         response.send(alpha);
