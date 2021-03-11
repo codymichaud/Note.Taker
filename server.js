@@ -2,10 +2,13 @@ const express = require('express');
 const fs = require('fs');
 const db = require('./db/db.json');
 const path = require('path');
+const { response } = require('express');
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -34,6 +37,8 @@ app.post('/api/notes', (request, response) => {
     fs.readFile('db/db.json', (error, data) => {
         if (error) throw error;
 
+
+
         let json = JSON.parse(data);
 
         let noteEntry = {
@@ -50,6 +55,8 @@ app.post('/api/notes', (request, response) => {
         });
     });
 });
+
+
 
 
 
