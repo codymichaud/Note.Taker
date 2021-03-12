@@ -63,14 +63,6 @@ app.post('/api/notes', (request, response) => {
     });
 });
 
-app.post('/api/notes', (req, res) => {
-    fs.readFile('./db/db.json', 'utf8', function (error, data) {
-        const displayData = JSON.parse(data);
-        response.send(displayData);
-        if (error) throw error;
-
-    });
-});
 
 
 app.delete("/api/notes/:id", (request, response) => {
