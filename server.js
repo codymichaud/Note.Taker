@@ -3,7 +3,8 @@ const fs = require('fs');
 const userNote = require('./db/db.json');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const { response } = require('express');
+const { response, json } = require('express');
+const { error } = require('console');
 
 
 
@@ -33,6 +34,7 @@ app.get('/api/notes', (request, response) => {
     fs.readFile('db/db.json', 'utf-8', function (error, content) {
         let alpha = JSON.parse(content);
         response.send(alpha);
+
     });
 });
 
@@ -76,6 +78,15 @@ app.delete("/api/notes/:id", (request, response) => {
     response.json(true);
 });
 
+
+// app.delete("/api/notes/:id", function (request, response) {
+//     userNote.splice(request.params.id, 1);
+//     fs.writeFile("db/db.json", JSON.stringify(userNote, '\t'), err => {
+//         if (error) throw error;
+//         return true;
+//     })
+//  
+// });
 
 
 
