@@ -1,8 +1,11 @@
 const express = require('express');
 const fs = require('fs');
-const db = require('./db/db.json');
+const userNote = require('./db/db.json');
 const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 const { response } = require('express');
+
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -36,7 +39,8 @@ app.get('/api/notes', (request, response) => {
 app.post('/api/notes', (request, response) => {
     fs.readFile('db/db.json', (error, data) => {
         if (error) throw error;
-
+        const newNote = request.body;
+        userNote.id = uuidv4(userNote.id);
 
 
         let json = JSON.parse(data);
@@ -48,12 +52,36 @@ app.post('/api/notes', (request, response) => {
 
         json.push(noteEntry);
 
+
         fs.writeFile('db/db.json', JSON.stringify(json, null, 3), (error) => {
             if (error) throw error;
             response.send('202');
 
         });
+        userNote.push(data);
+        data.id++;
     });
+});
+
+app.post('/api/notes', (req, res) => {
+    fs.readFile('./db/db.json', 'utf8', function (error, data) {
+        const displayData = JSON.parse(data);
+        response.send(displayData);
+        if (error) throw error;
+
+    });
+});
+
+
+app.delete("/api/notes/:id", (request, response) => {
+    const noteID = request.params.id;
+    note = userNote.filter((notes, index) => {
+        return noteID !== notes.id;
+    });
+    fs.writeFile("db/db.json", JSON.stringify(note), (error) => {
+        if (error) throw error;
+    });
+    response.json(true);
 });
 
 
